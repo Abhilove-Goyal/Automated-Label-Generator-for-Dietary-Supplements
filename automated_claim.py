@@ -4,8 +4,7 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# .venv\Scripts\Activate === to actiate the environment
+# .venv\Scripts\activate === to actiate the environment
 
 # ✅ Load API Key from Environment
 api_key = os.getenv("GOOGLE_API_KEY")
