@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandWiz - Choose Template</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Select a Template</h2>
+
+    <div class="template-container">
+        <label>
+            <input type="radio" name="template" value="Red and White Minimalist Strawberry Juice Label (1).png" onclick="selectTemplate(this.value)">
+            <img src="images/Red and White Minimalist Strawberry Juice Label (1).png" alt="Template 1" class="template-img">
+        </label>
+        <label>
+            <input type="radio" name="template" value="Screenshot 2025-03-02 233340.png" onclick="selectTemplate(this.value)">
+            <img src="images/Screenshot 2025-03-02 233340.png" alt="Template 2" class="template-img">
+        </label>
+        <label>
+            <input type="radio" name="template" value="Screenshot 2025-03-02 233254.png" onclick="selectTemplate(this.value)">
+            <img src="images/Screenshot 2025-03-02 233254.png" alt="Template 3" class="template-img">
+        </label>
+    </div>
+
+    <button onclick="proceedToForm()">Next</button>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Label</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .label-template {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border: 2px solid #ddd;
+            padding: 20px;
+            background: white;
+        }
+        .section {
+            flex: 1;
+            padding: 10px;
+            text-align: left;
+            border-right: 1px solid #ddd;
+        }
+        .section:last-child {
+            border-right: none;
+        }
+        h2 {
+            color: rgb(0, 0, 0);
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+        .download-btns {
+            margin-top: 20px;
+        }
+        .download-btns button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .download-btns button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body onload="loadFormData()">
+
+    <div class="container">
+        <h1>Generated Label Preview</h1>
+
+        <!-- Label Layout -->
+        <div id="label" class="label-template">
+
+            <!-- Left Section: Supplement Facts -->
+            <div class="section">
+                <h2>Supplement Facts</h2>
+                <p id="factDesc"></p>
+                
+                <h3>Nutritional Values</h3>
+                <table id="nutrientTable">
+                    <tr>
+                        <th>Nutrient</th>
+                        <th>Amount per Serving</th>
+                        <th>% Daily Value</th>
+                    </tr>
+                </table>
+
+                <h3>Storage Conditions</h3>
+                <p id="storage"></p>
+
+                <h3>Vitamins</h3>
+                <table id="vitaminTable">
+                    <tr>
+                        <th>Vitamin</th>
+                        <th>Amount per Serving</th>
+                        <th>% Daily Value</th>
+                        
+                    </tr>
+                </table>
+
+                <h3>Recommendation</h3>
+                <p id="recommendation"></p>
+            </div>
+
+            <!-- Middle Section: Branding & Product -->
+            <div class="section">
+                <h2 id="brandName"></h2>
+                <img id="brandLogo" alt="Brand Logo">
+                <h2 id="productName"></h2>
+                <img id="productImage" alt="Product Image">
+            </div>
+
+            <!-- Right Section: Warnings & Pricing -->
+            <div class="section">
+                <h3>Precautions & Warnings</h3>
+                <p id="warnings"></p>
+
+               
+
+                <h3>Manufactured & Sold By</h3>
+                <p id="manufacturer"></p>
+
+                <h3>License Info</h3>
+                <p id="license"></p>
+
+                <h3>Product Pricing</h3>
+                <table>
+                    <tr><td>MRP:</td><td id="mrp"></td></tr>
+                    <tr><td>Batch No:</td><td id="batch"></td></tr>
+                    <tr><td>Expiry Date:</td><td id="expiry"></td></tr>
+                    <tr><td>Unit Sale Price:</td><td id="salePrice"></td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Download Buttons -->
+        <div class="download-btns">
+            <button onclick="downloadLabel('png')">Download as PNG</button>
+            <button onclick="downloadLabel('jpeg')">Download as JPEG</button>
+            <button onclick="downloadLabel('pdf')">Download as PDF</button>
+        </div>
+
+    </div>
+
+    <script>
+        function loadFormData() {
+            const formData = JSON.parse(localStorage.getItem("formData"));
+            if (!formData) return;
+    
+            document.getElementById("factDesc").innerText = formData.factDesc || "N/A";
+            document.getElementById("storage").innerText = formData.storage || "N/A";
+           
+            document.getElementById("productName").innerText = formData.productName || "Product Name";
+            document.getElementById("warnings").innerText = formData.warnings || "N/A";
+            document.getElementById("recommendation").innerText = formData.recommendation || "N/A";
+
+           
+            document.getElementById("manufacturer").innerText = formData.manufacturer || "N/A";
+            document.getElementById("license").innerText = formData.license || "N/A";
+            document.getElementById("mrp").innerText = formData.mrp || "N/A";
+            document.getElementById("batch").innerText = formData.batch || "N/A";
+            document.getElementById("expiry").innerText = formData.expiry || "N/A";
+            document.getElementById("salePrice").innerText = formData.salePrice || "N/A";
+    
+            document.getElementById("brandLogo").src = formData.brandLogo || "";
+            document.getElementById("productImage").src = formData.productImage || "";
+    
+            // Populate nutrient table
+            const nutrientTable = document.getElementById("nutrientTable");
+            nutrientTable.innerHTML = `<tr><th>Nutrient</th><th>Amount per Serving</th><th>% Daily Value</th></tr>`; // Reset table
+    
+            formData.nutrients?.forEach(nutrient => {
+                const row = nutrientTable.insertRow();
+                row.innerHTML = `<td>${nutrient.name}</td><td>${nutrient.amount}</td><td>${nutrient.daily}</td>`;
+            });
+    
+            // Populate vitamin table
+            const vitaminTable = document.getElementById("vitaminTable");
+            vitaminTable.innerHTML = `<tr><th>Vitamin</th><th>Amount per Serving</th><th>% Daily Value</th></tr>`; // Reset table
+    
+            formData.vitamins?.forEach(vitamin => {
+                const row = vitaminTable.insertRow();
+                row.innerHTML = `<td>${vitamin.name}</td><td>${vitamin.amount}</td><td>${vitamin.daily}</td>`;
+            });
+        }
+        
+    </script>
+
+<script>
+    function downloadLabel(format) {
+        const label = document.getElementById("label");
+
+        html2canvas(label).then(canvas => {
+            if (format === "png" || format === "jpeg") {
+                const link = document.createElement("a");
+                link.href = canvas.toDataURL(`image/${format}`);
+                link.download = `label.${format}`;
+                link.click();
+            } 
+            else if (format === "pdf") {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF("p", "mm", "a4");
+                const imgData = canvas.toDataURL("image/jpeg");
+                
+                const imgWidth = 190;  // Adjust width for PDF
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let position = 10;  // Margin from top
+                
+                pdf.addImage(imgData, "JPEG", 10, position, imgWidth, imgHeight);
+                
+                pdf.save("label.pdf");
+            }
+        });
+    }
+</script>
+
+    
+
+</body>
+</html>

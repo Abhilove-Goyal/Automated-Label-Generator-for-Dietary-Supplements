@@ -1,0 +1,282 @@
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styles */
+body {
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+/* Header */
+header {
+    background: #007BFF;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+}
+
+.auth-buttons button {
+    background: white;
+    color: #007BFF;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.auth-buttons button:hover {
+    background: #e3e3e3;
+}
+
+/* Main Content */
+.main-content {
+    margin-top: 50px;
+}
+
+.main-content h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.main-content p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Input & Button */
+input {
+    padding: 8px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+}
+
+button {
+    background: #007BFF;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* Steps Navigation */
+.steps {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.steps span {
+    background: #ddd;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.steps .active {
+    background: #007BFF;
+    color: white;
+}
+
+/* Template Selection */
+.template-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.template-container label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.template-img {
+    width: 200px; /* Adjust size as needed */
+    height: auto;
+    border: 3px solid transparent;
+    transition: 0.3s;
+    border-radius: 10px;
+}
+
+.template-container label input[type="radio"] {
+    display: none; /* Hide default radio buttons */
+}
+
+.template-container label input[type="radio"]:checked + img {
+    border: 3px solid #007BFF;
+    box-shadow: 0 0 15px #007BFF;
+}
+
+/* Form */
+form {
+    background: white;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0px 0px 10px gray;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form label {
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Label Preview */
+.label-preview {
+    background: white;
+    padding: 20px;
+    max-width: 450px;
+    margin: auto;
+    box-shadow: 0px 0px 10px gray;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.label-preview h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+.label-preview h3 {
+    font-size: 18px;
+    color: #007BFF;
+}
+
+.label-preview p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Product Details Section */
+.product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 0px 10px gray;
+    border-radius: 5px;
+    max-width: 600px;
+}
+
+.product-details h2 {
+    font-size: 20px;
+    color: #333;
+    text-align: left;
+}
+
+/* MRP Box */
+.mrp-box {
+    background: #f8f8f8;
+    padding: 15px;
+    border: 2px dashed #007BFF;
+    margin-top: 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Equal Section Layout */
+.sections-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 30px auto;
+    max-width: 1000px;
+}
+
+.section {
+    background: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px gray;
+    border-radius: 5px;
+    flex: 1;
+    text-align: left;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+/* Table Styling */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #007BFF;
+    color: white;
+}
+
+td {
+    background: #f8f8f8;
+}
+
+/* Footer */
+footer {
+    background: #007BFF;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sections-container {
+        flex-direction: column;
+    }
+    
+    .template-container {
+        flex-wrap: wrap;
+    }
+
+    .template-img {
+        width: 150px;
+    }
+}
