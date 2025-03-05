@@ -81,8 +81,44 @@ function downloadLabel(format) {
         document.body.removeChild(link);
     });
 }
+function submitProduct() {
+    // Gather product data from the form or inputs
+    const productData = {
+        product_name: document.getElementById('productName').value,
+        ingredients: document.getElementById('ingredients').value.split(',').map(item => item.trim()), // Convert comma-separated string to array
+        dosage: document.getElementById('dosage').value,
+        expiry_date: document.getElementById('expiryDate').value
+    };
 
+    // Send POST request to Flask backend
+    fetch('http://127.0.0.1:5000/submit-product', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productData) // Convert data to JSON
+    })
+    .then(response => response.json()) // Parse JSON response
+    .then(result => {
+        if (result.message) {
+            console.log('Success:', result.message);
+            console.log('Product Data:', result.product_data);
+            alert('Product processed successfully! Check the console for details.');
+        } else {
+            console.error('Error:', result.error || result.message);
+            alert('Failed to process product. Check the console for details.');
+        }
+    })
+    .catch(error => {
+        console.error('Network error:', error);
+        alert('Network error. Please try again.');
+    });
+}
 
-
-
-script.js
+// ✅ Add event listener for "Proceed" button in form.html
+document.addEventListener('DOMContentLoaded', () => {
+    const proceedButton = document.getElementById('proceedButton');
+    if (proceedButton) {
+        proceedButton.addEventListener('click', submitProduct);
+    }
+});

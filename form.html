@@ -126,50 +126,39 @@
 
     <script>
         function addRow(tableId) {
-    const table = document.getElementById(tableId);
-    const row = table.insertRow(-1);
-    row.innerHTML = `
-        <td><input type="text" name="${tableId === 'vitaminTable' ? 'vitamin' : 'nutrient'}"></td>
-        <td><input type="text" name="amount"></td>
-        <td><input type="text" name="daily"></td>
-        <td><button type="button" onclick="removeRow(this)">Remove</button></td>
-    `;
-}
-
-function removeRow(button) {
-    button.closest("tr").remove();
-}
-
-function convertImageToBase64(input, callback) {
-    if (input.files.length > 0) {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-            callback(reader.result);
-        };
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        callback(null);
-    }
-}
-
-function saveToJSONFile(data, filename) {
-    const jsonString = JSON.stringify(data, null, 4);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-
-function saveFormDataAndProceed() {
+            const table = document.getElementById(tableId);
+            const row = table.insertRow(-1);
+            row.innerHTML = `
+                <td><input type="text" name="${tableId === 'vitaminTable' ? 'vitamin' : 'nutrient'}"></td>
+                <td><input type="text" name="amount"></td>
+                <td><input type="text" name="daily"></td>
+                <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+            `;
+        }
+        
+        function removeRow(button) {
+            button.closest("tr").remove();
+        }
+        
+        function convertImageToBase64(input, callback) {
+            if (input.files.length > 0) {
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    callback(reader.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                callback(null);
+            }
+        }
+        
+        function saveFormDataAndProceed() {
     const nutrients = [];
     document.querySelectorAll("#nutrientTable tr").forEach((row, index) => {
         if (index === 0) return; // Skip header row
-        const nutrient = row.querySelector("input[name='nutrient']").value;
-        const amount = row.querySelector("input[name='amount']").value;
-        const daily = row.querySelector("input[name='daily']").value;
+        const nutrient = row.querySelector("input[name='nutrient']").value.trim();
+        const amount = row.querySelector("input[name='amount']").value.trim();
+        const daily = row.querySelector("input[name='daily']").value.trim();
         if (nutrient && amount && daily) {
             nutrients.push({ name: nutrient, amount: amount, daily: daily });
         }
@@ -178,27 +167,27 @@ function saveFormDataAndProceed() {
     const vitamins = [];
     document.querySelectorAll("#vitaminTable tr").forEach((row, index) => {
         if (index === 0) return; // Skip header row
-        const vitamin = row.querySelector("input[name='vitamin']").value;
-        const amount = row.querySelector("input[name='amount']").value;
-        const daily = row.querySelector("input[name='daily']").value;
+        const vitamin = row.querySelector("input[name='vitamin']").value.trim();
+        const amount = row.querySelector("input[name='amount']").value.trim();
+        const daily = row.querySelector("input[name='daily']").value.trim();
         if (vitamin && amount && daily) {
             vitamins.push({ name: vitamin, amount: amount, daily: daily });
         }
     });
 
     const formData = {
-        factDesc: document.getElementById("factDesc").value,
-        storage: document.getElementById("storage").value,
-        brandName: document.getElementById("brandName").value,
-        productName: document.getElementById("productName").value,
-        warnings: document.getElementById("warnings").value,
-        recommendation: document.getElementById("recommendation").value, 
-        manufacturer: document.getElementById("manufacturer").value,
-        license: document.getElementById("license").value,
-        mrp: document.getElementById("mrp").value,
-        batch: document.getElementById("batch").value,
-        expiry: document.getElementById("expiry").value,
-        salePrice: document.getElementById("salePrice").value,
+        factDesc: document.getElementById("factDesc").value.trim(),
+        storage: document.getElementById("storage").value.trim(),
+        brandName: document.getElementById("brandName").value.trim(),
+        productName: document.getElementById("productName").value.trim(),
+        warnings: document.getElementById("warnings").value.trim(),
+        recommendation: document.getElementById("recommendation").value.trim(), 
+        manufacturer: document.getElementById("manufacturer").value.trim(),
+        license: document.getElementById("license").value.trim(),
+        mrp: document.getElementById("mrp").value.trim(),
+        batch: document.getElementById("batch").value.trim(),
+        expiry: document.getElementById("expiry").value.trim(),
+        salePrice: document.getElementById("salePrice").value.trim(),
         nutrients: nutrients,
         vitamins: vitamins
     };
@@ -209,17 +198,40 @@ function saveFormDataAndProceed() {
         convertImageToBase64(document.getElementById("productImage"), function (productData) {
             formData.productImage = productData || ""; 
 
-            // Store in localStorage
-            localStorage.setItem("formData", JSON.stringify(formData));
-
-            // Save the JSON file locally
-            saveToJSONFile(formData, "formData.json");
-
-            // Redirect after saving
-            window.location.href = "generate.html";
+            // Send data to server instead of downloading the JSON file
+            fetch("http://localhost:3000/saveData", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Response:", data);
+                alert(data.message); // Show success message
+                window.location.href = "generate.html"; // Redirect after saving
+            })
+            .catch(error => {
+                console.error("Error saving data:", error);
+                alert("Failed to save data");
+            });
         });
     });
 }
 
-            
-    </script>
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+form.html
